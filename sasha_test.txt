@@ -1,3 +1,0 @@
-This is Sasha's test file for github training.
-
-Now on branch 3.
