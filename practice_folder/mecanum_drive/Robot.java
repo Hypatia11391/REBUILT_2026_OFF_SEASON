@@ -3,7 +3,7 @@
 
 // ASSIGNMENT:
 // Work in pairs: one experienced programmer + one less-experienced programmer.
-// 1. Comment each line of this code (explain what each line does).
+// 1. Comment each line of this code (explain what each line does). /DONE
 // 2. Create your own branch off of the `practice-branch` (one branch per group).
 // 3. Create a new file in the `tester_files/mecanum_drive` folder with your commented code.
 // 4. Push your changes to GitHub on your new branch.
