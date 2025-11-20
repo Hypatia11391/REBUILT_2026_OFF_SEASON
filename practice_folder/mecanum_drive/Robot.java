@@ -45,19 +45,23 @@ public class Robot extends TimedRobot {
   private final Joystick m_stick;
 
   public Robot() {
-    PWMSparkMax frontLeft = new PWMSparkMax(kFrontLeftChannel); // new instance of PWMSparkMax object type for the front left motor controller
-    PWMSparkMax rearLeft = new PWMSparkMax(kRearLeftChannel);
-    PWMSparkMax frontRight = new PWMSparkMax(kFrontRightChannel);
+      // Initialize each motor object
+      PWMSparkMax frontLeft = new PWMSparkMax(kFrontLeftChannel); // new instance of PWMSparkMax object type for the front left motor controller
+    PWMSparkMax rearLeft = new PWMSparkMax(kRearLeftChannel); // same, but for the rear left
+    PWMSparkMax frontRight = new PWMSparkMax(kFrontRightChannel); // etc.
     PWMSparkMax rearRight = new PWMSparkMax(kRearRightChannel);
 
+    // Invert the right side motors
     frontRight.setInverted(true);
     rearRight.setInverted(true);
 
+    // Initialize the mecanum drive control
     m_robotDrive = new MecanumDrive(frontLeft::set, rearLeft::set, frontRight::set, rearRight::set);
 
+    // Initializes the joystick input channel
     m_stick = new Joystick(kJoystickChannel);
 
-    // reads the orientation or angular velocity of the motor
+    // Initializes sensing the motor orientation
     SendableRegistry.addChild(m_robotDrive, frontLeft);
     SendableRegistry.addChild(m_robotDrive, rearLeft);
     SendableRegistry.addChild(m_robotDrive, frontRight);
@@ -65,7 +69,7 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopPeriodic() {
+  public void teleopPeriodic() { // Links the stick inputs to the drive outputs.
     m_robotDrive.driveCartesian(-m_stick.getY(), -m_stick.getX(), -m_stick.getZ());
-  } // sets stick inputs to ha ve proper sign with the mecanum drive outputs?
+  }
 }
