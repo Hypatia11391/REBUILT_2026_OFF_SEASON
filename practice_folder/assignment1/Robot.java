@@ -3,7 +3,7 @@
 
 // ASSIGNMENT:
 // Work in pairs: one experienced programmer + one less-experienced programmer.
-// 1. Comment each line of this code (explain what each line does).
+// 1. Comment each line of this code (explain what each line does). /DONE
 // 2. Create your own branch off of the `practice-branch` (one branch per group).
 // 3. Create a new file in the `tester_files/mecanum_drive` folder with your commented code.
 // 4. Push your changes to GitHub on your new branch.
@@ -21,47 +21,68 @@
 
 // If you have any questions: talk to one of the leaders.
 
-
+//This imports stuff
 package edu.wpi.first.wpilibj.examples.mecanumdrive;
 
-import edu.wpi.first.util.sendable.SendableRegistry;
+import edu.wpi.first.util.sendable.SendableRegistry; // this imports stuff (loading a library)
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 
+// defines the Robot class to use in other files
 public class Robot extends TimedRobot {
+    // defines the pin address on the proccessor that each motor connects to
   private static final int kFrontLeftChannel = 2;
   private static final int kRearLeftChannel = 3;
   private static final int kFrontRightChannel = 1;
   private static final int kRearRightChannel = 0;
 
+  //
+  private static final int kFrontLeftChannel = 2; // assigning stuff like variables as an int (local variables)
+  private static final int kRearLeftChannel = 3; //pin port number on the motor controller
+  private static final int kFrontRightChannel = 1;
+  private static final int kRearRightChannel = 0;
+
+  // pin address for the joystick
   private static final int kJoystickChannel = 0;
 
   private final MecanumDrive m_robotDrive;
-  private final Joystick m_stick;
+  private final Joystick m_stick; //connecting variable to joystick
 
   public Robot() {
-    PWMSparkMax frontLeft = new PWMSparkMax(kFrontLeftChannel);
+      // Initialize each motor object
+      PWMSparkMax frontLeft = new PWMSparkMax(kFrontLeftChannel); // new instance of PWMSparkMax object type for the front left motor controller
+    PWMSparkMax rearLeft = new PWMSparkMax(kRearLeftChannel); // same, but for the rear left
+    PWMSparkMax frontRight = new PWMSparkMax(kFrontRightChannel); // etc.
+    PWMSparkMax frontLeft = new PWMSparkMax(kFrontLeftChannel); //new instance with these variables
     PWMSparkMax rearLeft = new PWMSparkMax(kRearLeftChannel);
     PWMSparkMax frontRight = new PWMSparkMax(kFrontRightChannel);
     PWMSparkMax rearRight = new PWMSparkMax(kRearRightChannel);
 
+    // Invert the right side motors
     frontRight.setInverted(true);
     rearRight.setInverted(true);
 
+    // Initialize the mecanum drive control
     m_robotDrive = new MecanumDrive(frontLeft::set, rearLeft::set, frontRight::set, rearRight::set);
+    m_robotDrive = new MecanumDrive(frontLeft::set, rearLeft::set, frontRight::set, rearRight::set); //"drive mechanic"
 
+    // Initializes the joystick input channel
     m_stick = new Joystick(kJoystickChannel);
 
+    // Initializes sensing the motor orientation
     SendableRegistry.addChild(m_robotDrive, frontLeft);
+    SendableRegistry.addChild(m_robotDrive, frontLeft); //gets information from the motor
     SendableRegistry.addChild(m_robotDrive, rearLeft);
     SendableRegistry.addChild(m_robotDrive, frontRight);
     SendableRegistry.addChild(m_robotDrive, rearRight);
   }
 
   @Override
-  public void teleopPeriodic() {
+  public void teleopPeriodic() { // Links the stick inputs to the drive outputs.
     m_robotDrive.driveCartesian(-m_stick.getY(), -m_stick.getX(), -m_stick.getZ());
+  public void teleopPeriodic() {
+    m_robotDrive.driveCartesian(-m_stick.getY(), -m_stick.getX(), -m_stick.getZ()); //sets stick's inputs
   }
 }
